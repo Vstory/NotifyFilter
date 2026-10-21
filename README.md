@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Min SDK](https://img.shields.io/badge/Android-13%2B-3DDC84)](https://developer.android.com/about/versions/13)
 
-> 安装、权限与常见问题见 [Wiki](https://github.com/Vstory/NotifyFilter/wiki)。版本变更见 [CHANGELOG.md](CHANGELOG.md)。
+> 安装、权限与常见问题见 [Wiki](https://github.com/Vstory/NotifyFilter/wiki)。版本变更见 [Releases](https://github.com/Vstory/NotifyFilter/releases)。
 
 ## 功能
 

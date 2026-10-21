@@ -3,7 +3,7 @@ name: Build · Release
 # 正式版渠道：**只手动触发**，只认 main 的最新提交，tag `v<版本>.<code>`、每版一个独立页。
 #   · 只放行 main。上游还带 dev / island 两条线（fork 时一并复制过来），不在本工作流范围内。
 # ⚠️ 刻意不挂 push：合并代码就自动吐出一个正式包，等于把未经确认的代码当成已发布版本。
-#    测试版请走 build-ci.yml（push 任意分支即出包，固定 tag `ci`）。
+#    测试版请走 build-ci-debug.yml（push 任意分支即出包，固定 tag `ci`）。
 # 正文优先取仓库内 `.github/release-notes/v<版本>.<code>.md` 并**原样**发布 —— 故可先写好文件、
 # 提交推送、再触发，页面内容就等于文件内容（正文可控可核对）；缺失时回退为 CI 自动生成。
 # ⚠️ 回写 latest.json（应用内更新源）在发布成功之后进行；latest-dev.json 已废弃，不再回写。
@@ -123,7 +123,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # 前缀固定为 NotifyFilter：应用名是中文（通知净化），进不了文件名/URL。
-          # ⚠️ 必须与 build-ci.yml 的 PREFIX、UpdateViewModel 的 apkName 同值（后者拼应用内更新下载名）。
+          # ⚠️ 必须与 build-ci-debug.yml 的 PREFIX、UpdateViewModel 的 apkName 同值（后者拼应用内更新下载名）。
           PREFIX="NotifyFilter"
 
           VER="$(sed -nE 's/^[[:space:]]*versionName = "([^"]+)".*/\1/p' app/build.gradle.kts | head -1)"
@@ -166,9 +166,9 @@ jobs:
           for kv in "PREFIX=$PREFIX" "VER=$VER" "CODE=$CODE" "APK_NAME=$APK_NAME" "TAG=$TAG"; do echo "${kv}" >> "$GITHUB_ENV"; done
 
       # 签名：从仓库 secrets 解码**固定密钥**（公用钥，见 tokens/Signing/）到 `ci-signing.jks`。
-      #   ⚠️ 4 个 secret 是配套的一组，改名要四处同改：本处与 build-ci.yml、
+      #   ⚠️ 4 个 secret 是配套的一组，改名要四处同改：本处与 build-ci-debug.yml、
       #      tokens/Signing/scripts/sync-signing-secrets.py 的 SECRET_FROM_KEY、
-      #      tokens/Signing/README.md、知识库 凭证运维/README.md。
+      #      tokens/Signing/README.md、知识库 200_Knowledge/credentials-ops/README.md。
       #   ⚠️ secret 一律经 env 传入、run 里只引用变量名 —— 不把 ${{ secrets.X }} 写进 run 正文：
       #      值里若含 `$` 或反引号会被 shell 二次展开，且在签名报错前毫无提示。
       #   ⚠️ 缺 secret 时**直接失败**：本项目的 build.gradle.kts 在无 local.properties 时**不报错**，
