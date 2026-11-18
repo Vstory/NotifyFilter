@@ -21,6 +21,9 @@ dist/
 /*.apk
 *.idsig
 
+# ==== 训练数据（仅本地） ====
+training/samples/
+
 # ==== 评估文档与参考仓库（仅本地） ====
 /miuixplan.md
 /island.md

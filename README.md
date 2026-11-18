@@ -64,8 +64,10 @@ cd NotifyFilter
 
 ```bash
 pip install -r training/requirements.txt
-python training/train.py --extra data-a.csv --extra data-b.csv --extra-weight 30
+python training/train.py --extra mine.csv --extra-weight 30
 ```
+
+
 
 产物 `training/model_out/model.bin` 需拷入 `app/src/main/resources/model/`。
 
